@@ -45,7 +45,7 @@ public class MainActivity extends Form implements HandlesEventDispatching {
         servernameBoxLabel.WidthPercent(20);
         servernameBoxLabel.HeightPercent(100);
         servernameBox =new TextBox(topLayout);
-        servernameBox.FontSize(14);
+        servernameBox.FontSize(12);
         servernameBox.WidthPercent(75);
         servernameBox.Text("https://fachtnaroe.net/qndco2?");
         servernameBox.Enabled(false);
@@ -62,7 +62,7 @@ public class MainActivity extends Form implements HandlesEventDispatching {
         commandBoxLabel.FontSize(12);
         commandBoxLabel.WidthPercent(20);
         commandBox=new TextBox(midLayout);
-        commandBox.FontSize(14);
+        commandBox.FontSize(12);
         commandBox.WidthPercent(75);
         commandBox.FontTypeface(Component.TYPEFACE_MONOSPACE);
         commandBox.Text("cmd=debug");
