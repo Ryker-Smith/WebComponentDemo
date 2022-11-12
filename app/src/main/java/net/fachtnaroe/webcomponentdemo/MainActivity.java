@@ -48,7 +48,7 @@ public class MainActivity extends Form implements HandlesEventDispatching {
         servernameBox.FontSize(12);
         servernameBox.WidthPercent(75);
         servernameBox.Text("https://fachtnaroe.net/qndco2?");
-        servernameBox.Enabled(false);
+        servernameBox.Enabled(true);
         servernameBox.FontTypeface(Component.TYPEFACE_MONOSPACE);
 
         midLayout = new HorizontalArrangement(mainLayout);
@@ -116,6 +116,7 @@ public class MainActivity extends Form implements HandlesEventDispatching {
 
     public void handleWebResponse(String status, String textOfResponse) {
         String temp = new String();
+        goButton.Text("go");
         if (status.equals("200"))  {
             contentBox.Text(textOfResponse);
         }
