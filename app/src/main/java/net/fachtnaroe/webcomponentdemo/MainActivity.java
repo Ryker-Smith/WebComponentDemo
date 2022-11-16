@@ -1,5 +1,7 @@
 package net.fachtnaroe.webcomponentdemo;
 
+import static java.lang.Thread.sleep;
+
 import com.google.appinventor.components.runtime.Button;
 import com.google.appinventor.components.runtime.Component;
 import com.google.appinventor.components.runtime.EventDispatcher;
@@ -9,8 +11,10 @@ import com.google.appinventor.components.runtime.HorizontalArrangement;
 import com.google.appinventor.components.runtime.Label;
 import com.google.appinventor.components.runtime.TextBox;
 import com.google.appinventor.components.runtime.VerticalArrangement;
+import com.google.appinventor.components.runtime.VerticalScrollArrangement;
 import com.google.appinventor.components.runtime.Web;
-
+import com.google.appinventor.components.runtime.WebViewer;
+//
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
@@ -18,11 +22,14 @@ public class MainActivity extends Form implements HandlesEventDispatching {
 
     private
     HorizontalArrangement topLayout, midLayout;
-    VerticalArrangement mainLayout, contentLayout;
+    VerticalArrangement mainLayout;
+    VerticalScrollArrangement contentLayout;
     TextBox servernameBox, commandBox;
     Label servernameBoxLabel, commandBoxLabel, contentBox;
     Button goButton;
     Web contentGetter;
+    //fachtnaWebViewer fWeb;
+    WebViewer contentViewer;
 
     protected void $define() {
 
@@ -67,17 +74,16 @@ public class MainActivity extends Form implements HandlesEventDispatching {
         commandBox.FontTypeface(Component.TYPEFACE_MONOSPACE);
         commandBox.Text("cmd=debug");
 
-        contentLayout=new VerticalArrangement(mainLayout);
+        contentLayout=new VerticalScrollArrangement(mainLayout);
         goButton = new Button(contentLayout);
         goButton.Text("go");
         goButton.WidthPercent(100);
+
         contentBox=new Label(contentLayout);
         contentBox.WidthPercent(100);
         contentBox.HeightPercent(100);
         contentBox.Text("Reply will be here");
-        contentBox.BackgroundColor(Component.COLOR_LTGRAY);
         contentBox.HTMLFormat(true);
-
         contentGetter = new Web (mainLayout);
 
         EventDispatcher.registerEventForDelegation(this, formName, "Click");
@@ -97,17 +103,25 @@ public class MainActivity extends Form implements HandlesEventDispatching {
             if (component.equals(goButton)) {
                 contentGetter.Url( servernameBox.Text() + commandBox.Text() );
                 contentBox.Text(contentGetter.Url());
+                dbg("Sending request");
                 goButton.Text("working");
                 System.err.print("You pressed the button");
                 contentGetter.Get();
+                dbg("Request sent");
                 return true;
             }
         }
         else if (eventName.equals("GotText")) {
+            dbg("GotText");
             if (component.equals(contentGetter)) {
+//                dbg("My web component");
+                contentBox.Text("Formatting\n");
+
                 String status = params[1].toString();
                 String textOfResponse = (String) params[3];
+//                dbg("Calling function to process response");
                 handleWebResponse(status, textOfResponse);
+//                dbg("Finished and returned");
                 return true;
             }
         }
@@ -115,14 +129,34 @@ public class MainActivity extends Form implements HandlesEventDispatching {
     }
 
     public void handleWebResponse(String status, String textOfResponse) {
+        dbg("In function");
         String temp = new String();
+        dbg("A");
         goButton.Text("go");
         if (status.equals("200"))  {
+            dbg("B");
+            int maxHTML=8192;
+            if (textOfResponse.length() > maxHTML) {
+                textOfResponse= (String)textOfResponse.subSequence(0, maxHTML);
+            }
+            textOfResponse=textOfResponse.replace("\n","<br>");
+            textOfResponse=textOfResponse.replace("<td>","&nbsp;<td>");
+            textOfResponse=textOfResponse.replace("<tr>","\n<tr>");
+            temp = "<html><pre><code>" + textOfResponse + "</code></pre></html>";
+//            contentViewer.BackgroundColor(Component.COLOR_BLUE);
             contentBox.Text(textOfResponse);
+//            contentBox.Text(status);
+            dbg(textOfResponse);
+            dbg("D");
         }
         else {
+            dbg("C");
             contentBox.Text(status);
         }
+        dbg("End of processing function");
+    }
+    public static void dbg (String debugMsg) {
+        System.err.print( "~~~> " + debugMsg + " <~~~\n");
     }
 }
 
