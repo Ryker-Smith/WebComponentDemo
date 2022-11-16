@@ -19,8 +19,8 @@ public class MainActivity extends Form implements HandlesEventDispatching {
     private
     HorizontalArrangement topLayout, midLayout;
     VerticalArrangement mainLayout, contentLayout;
-    TextBox servernameBox, commandBox, contentBox;
-    Label servernameBoxLabel, commandBoxLabel;
+    TextBox servernameBox, commandBox;
+    Label servernameBoxLabel, commandBoxLabel, contentBox;
     Button goButton;
     Web contentGetter;
 
@@ -71,12 +71,12 @@ public class MainActivity extends Form implements HandlesEventDispatching {
         goButton = new Button(contentLayout);
         goButton.Text("go");
         goButton.WidthPercent(100);
-        contentBox=new TextBox(contentLayout);
-        contentBox.MultiLine(true);
+        contentBox=new Label(contentLayout);
         contentBox.WidthPercent(100);
         contentBox.HeightPercent(100);
         contentBox.Text("Reply will be here");
         contentBox.BackgroundColor(Component.COLOR_LTGRAY);
+        contentBox.HTMLFormat(true);
 
         contentGetter = new Web (mainLayout);
 
