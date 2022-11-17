@@ -80,9 +80,11 @@ public class MainActivity extends Form implements HandlesEventDispatching {
         goButton.WidthPercent(100);
 
         contentBox=new Label(contentLayout);
-        contentBox.WidthPercent(100);
-        contentBox.HeightPercent(100);
+        contentBox.WidthPercent(99);
+        contentBox.HeightPercent(150);
         contentBox.Text("Reply will be here");
+        contentBox.FontTypeface(Component.TYPEFACE_MONOSPACE);
+        contentBox.FontSize(10);
         contentBox.HTMLFormat(true);
         contentGetter = new Web (mainLayout);
 
