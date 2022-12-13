@@ -122,7 +122,7 @@ public class MainActivity extends Form implements HandlesEventDispatching {
                 String status = params[1].toString();
                 String textOfResponse = (String) params[3];
 //                dbg("Calling function to process response");
-                handleWebResponse(status, textOfResponse);
+                handleWebResponse(component, status, textOfResponse);
 //                dbg("Finished and returned");
                 return true;
             }
@@ -130,7 +130,7 @@ public class MainActivity extends Form implements HandlesEventDispatching {
         return false;
     }
 
-    public void handleWebResponse(String status, String textOfResponse) {
+    public void handleWebResponse(Component c, String status, String textOfResponse) {
         dbg("In function");
         String temp = new String();
         dbg("A");
